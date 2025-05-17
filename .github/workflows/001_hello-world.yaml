@@ -1,4 +1,4 @@
-name : "01 Hello World"
+name: "01 Hello World"
 
 on:
   workflow-dispatch: # This event triggers the workflow manually
