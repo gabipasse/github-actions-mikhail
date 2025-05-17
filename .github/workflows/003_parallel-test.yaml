@@ -1,0 +1,33 @@
+name: 03 Parallel Jobs With Failure
+
+on:
+  workflow_dispatch:  # This event triggers the workflow manually
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Linting
+        run: echo "Running linting..."
+
+  failure_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Unit Tests
+        run: echo "Running unit tests..."
+        
+      - name: Failing step
+        run: |
+          echo "I am failing"
+          exit 1  # Failure (non-zero exit code)
+
+  past_failure_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Testing if job has started
+        run: echo "testing job started"
+
+      - name: testing failure condition
+        if: ${{ failure() }}
+        run: |
+          echo "Failure condition running"
