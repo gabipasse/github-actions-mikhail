@@ -14,11 +14,11 @@ on:
         required: true
         type: number
 
-  jobs:
-    echo-username-age:
-      runs-on: ubunto-latest
-      steps:
-        - name: Echo username and age
-          run: |
-            echo "Username: ${{ inputs.username }}"
-            echo "Age: ${{ inputs.age }}"
+jobs:
+  echo-username-age:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo username and age
+        run: |
+          echo "Username: ${{ inputs.username }}"
+          echo "Age: ${{ inputs.age }}"

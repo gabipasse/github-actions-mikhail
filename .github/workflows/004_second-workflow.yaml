@@ -1,4 +1,4 @@
-name: workflow_run
+name: 04 workflow_run
 
 on: 
   workflows: ["04 workflow_dispatch"]
@@ -7,7 +7,7 @@ on:
 
 jobs:
   echo-hi-all:
-    runs-ons: ubunto-latest
+    runs-ons: ubuntu-latest
     steps:
       - name: Echo hi all
         run: |
