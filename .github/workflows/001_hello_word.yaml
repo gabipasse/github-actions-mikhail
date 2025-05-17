@@ -1,0 +1,12 @@
+name : "001 Hello World"
+
+on
+  workflow-dispatch: # This event triggers the workflow manually
+
+jobs:
+  say_hello_job:
+    run_on: ubunto-latest # the runner enviroment
+
+  steps:
+      name: Echo Hello World
+      run: echo "Hello, World!"
