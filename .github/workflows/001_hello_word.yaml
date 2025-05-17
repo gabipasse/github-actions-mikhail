@@ -1,6 +1,6 @@
-name : "001 Hello World"
+name : "01 Hello World"
 
-on
+on:
   workflow-dispatch: # This event triggers the workflow manually
 
 jobs:
