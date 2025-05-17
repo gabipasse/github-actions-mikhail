@@ -8,5 +8,5 @@ jobs:
     run_on: ubunto-latest # the runner enviroment
 
   steps:
-      name: Echo Hello World
+    - name: Echo Hello World
       run: echo "Hello, World!"
