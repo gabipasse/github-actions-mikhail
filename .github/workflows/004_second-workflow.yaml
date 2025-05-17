@@ -1,0 +1,14 @@
+name: workflow_run
+
+on: 
+  workflows: ["04 workflow_dispatch"]
+  types:
+    - completed
+
+jobs:
+  echo-hi-all:
+    runs-ons: ubunto-latest
+    steps:
+      - name: Echo hi all
+        run: |
+          echo "Hi all"
