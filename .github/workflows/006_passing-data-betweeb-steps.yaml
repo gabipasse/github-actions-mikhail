@@ -1,0 +1,14 @@
+name: 06 Passing Data Between steps
+
+on:
+  data-passing:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Create data
+        id: sender
+        run: |
+          echo "name=Carlos" >> $GITHUB_OUTPUT
+
+      - name: Receive data
+        run: |
+          echo ${{ steps.sender.outputs.name }} 
