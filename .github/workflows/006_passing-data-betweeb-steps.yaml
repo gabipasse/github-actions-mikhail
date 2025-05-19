@@ -1,6 +1,9 @@
 name: 06 Passing Data Between steps
 
 on:
+  workflow_dispatch
+
+jobs:
   data-passing:
     runs-on: ubuntu-22.04
     steps:
