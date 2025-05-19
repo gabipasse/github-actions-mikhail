@@ -1,0 +1,25 @@
+name: 06 Passing Data Between jobs
+
+on:
+  workflow_dispatch
+
+jobs:
+  data-sender:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Create data
+        id: data-sender
+        # This step will set the output name for this step to Carlos
+        run: |
+          echo "name=Carlos" >> $GITHUB_OUTPUT
+    outputs:
+      name: ${{ steps.data-sender.outputs.name }}
+      
+  data-receiver:
+    runs-on: ubuntu-22.04
+    needs: ["data-sender"]
+    steps: 
+      - name: Receive data
+      # Notice how we use needs object to acess the sender jobs outputs
+        run: |
+          echo ${{ needs.data-sender.outputs.name }}
