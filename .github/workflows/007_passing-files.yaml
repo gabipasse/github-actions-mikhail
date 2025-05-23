@@ -23,8 +23,11 @@ jobs:
           tox -e unit
           ls -la ${{ github.workspace }}/backend
 
+      - name: Verify absolut path .coverage
+        run: find . -name ".coverage"
+
       - name: Upload artifact 
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ${{ github.workspace }}/backend/.coverage
