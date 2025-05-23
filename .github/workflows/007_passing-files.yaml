@@ -28,6 +28,9 @@ jobs:
 
       - name: Verify githubworkspace/backend content
         run: ls -la ${{ github.workspace }}/backend
+      
+      - name: verify if .coverage is a file
+        run: stat backend/.coverage
 
       - name: Upload artifact 
         uses: actions/upload-artifact@v4
