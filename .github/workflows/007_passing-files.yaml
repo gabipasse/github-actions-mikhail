@@ -17,6 +17,8 @@ jobs:
 
       - name: Install Tox
         run: pip install tox 
+      - name: verify directory
+        run: pwd
       - name: Run unit tests
         run: |
           cd backend
