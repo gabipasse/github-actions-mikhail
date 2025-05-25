@@ -23,27 +23,18 @@ jobs:
           tox -e unit
           ls -la ${{ github.workspace }}/backend
 
-      - name: Verify absolut path .coverage
-        run: find . -name ".coverage"
-
-      - name: Verify githubworkspace/backend content
-        run: ls -la ${{ github.workspace }}/backend
-      
-      - name: verify if .coverage is a file
-        run: stat backend/.coverage
-
       - name: Upload artifact 
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
-          path: backend/.coverage
+          path: ${{ github.workspace }}/backend/.coverage
 
   load-file-example: 
     runs-on: ubuntu-22.04
     needs: [unit-test]
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: coverage
           path: ${{ github.workspace }}
