@@ -1,43 +1,78 @@
 name: 07 Passing Files In Artifacts
-
+ 
 on:
   workflow_dispatch:
     
 jobs:
   unit-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source code 
         uses: actions/checkout@v4
-
+ 
       - name: Install Python 3.10
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-
-      - name: Install tox
-        run: pip install tox
+ 
+      - name: Install tox and requirements
+        run: |
+          pip install tox
+          cd backend
+          pip install -r requirements-unit.txt
+ 
       - name: Run unit tests
         run: |
           cd backend
           tox -e unit
+          echo "Current directory: $(pwd)"
+          echo "Files in current directory:"
+          ls -la
+          echo "Files in backend directory:"
           ls -la ${{ github.workspace }}/backend
-
-      - name: Upload artifact
+          echo "Checking for .coverage file:"
+          test -f .coverage && echo ".coverage exists" || echo ".coverage does not exist"
+ 
+      - name: Debug workspace structure
+        run: |
+          echo "Workspace root: ${{ github.workspace }}"
+          echo "Current directory: $(pwd)"
+          echo "Listing all files recursively:"
+          find ${{ github.workspace }} -name ".coverage" -type f
+          echo "Listing backend directory contents:"
+          ls -la backend/
+ 
+      - name: Prepare for artifact upload
+        run: |
+          cd ${{ github.workspace }}
+          echo "Current directory before upload: $(pwd)"
+          echo "File permissions:"
+          ls -la backend/.coverage
+          echo "File content (first few lines):"
+          head -n 5 backend/.coverage
+          
+          # Create a temporary directory and copy the coverage file
+          mkdir -p temp_artifacts
+          cp backend/.coverage temp_artifacts/coverage.sqlite
+          echo "Copied file exists:"
+          ls -la temp_artifacts/coverage.sqlite
+ 
+      - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage
-          path: ${{ github.workspace }}/backend/.coverage
+          path: temp_artifacts/coverage.sqlite
+          if-no-files-found: error
   
   load-file-example:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs: [unit-tests]
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: coverage
-          path: ${{ github.workspace }}
-
+          path: backend/.coverage
+ 
       - name: List folder 
-        run: ls -la ${{ github.workspace }}
+        run: ls -la ${{ github.workspace }}/backend
